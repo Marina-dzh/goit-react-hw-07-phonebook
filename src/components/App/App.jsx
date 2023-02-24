@@ -1,6 +1,5 @@
-import { useSelector } from "react-redux";
-import { selectContacts, selectFilter } from "components/redux/selectors";
-import React, {  useState} from "react";
+
+import React from "react";
 import { ContactForm } from "../Form/Form";
 import { ContactList } from "../List/List";
 import { Container } from "./App.styled";

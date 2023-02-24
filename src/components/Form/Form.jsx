@@ -6,7 +6,7 @@ import { Input, Error, Button } from "./Form.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { addContact } from "../redux/operations"
 import { toast } from 'react-hot-toast';
-import { nanoid } from "@reduxjs/toolkit";
+
 import { selectContacts } from "components/redux/selectors";
 
 
