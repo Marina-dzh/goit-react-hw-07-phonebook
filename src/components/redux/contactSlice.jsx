@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { fetchContacts, deleteContact, addContact } from "./operations";
 
 
@@ -10,50 +10,34 @@ export const contactsSlice = createSlice({
     isLoading: false,
     error: null
   },
-  extraReducers: {
-    [fetchContacts.pending](state) {
-      state.isLoading = true;
-    },
-    [fetchContacts.fulfilled](state, action) {
+  extraReducers: (builder) => {
+    builder
+      
+      .addCase(fetchContacts.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.items = action.payload;
-    },
-    [fetchContacts.rejected](state, action) {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-
-
-
-     [addContact.pending](state) {
-      state.isLoading = true;
-    },
-    [addContact.fulfilled](state, action) {
+      })
+      .addCase(addContact.fulfilled, (state, action) =>{
       state.isLoading = false;
       state.error = null;
-      
-    },
-    [addContact.rejected](state, action) {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-
-
-
-     [deleteContact.pending](state) {
-      state.isLoading = true;
-    },
-    [deleteContact.fulfilled](state, action) {
+      state.items.push(action.payload)
+      })
+      .addCase(deleteContact.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
-      
-    },
-    [deleteContact.rejected](state, action) {
+        state.items = state.items.filter(contact => contact.id !== action.payload.id) 
+      })
+    .addMatcher(isAnyOf(fetchContacts.pending,addContact.pending,deleteContact.pending), (state) => {
+      state.isLoading = true;
+    })
+    .addMatcher(isAnyOf(fetchContacts.rejected,addContact.rejected,deleteContact.rejected), (state, action) =>{
       state.isLoading = false;
       state.error = action.payload;
-    },
+    })
+  
   }
+
 })
 
 

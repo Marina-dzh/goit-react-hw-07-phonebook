@@ -1,7 +1,7 @@
 
 import styled from '@emotion/styled'
 export const List = styled.ul`
-
+margin-top: 16px;
  padding: 0;
  `
 export const Item = styled.div`
